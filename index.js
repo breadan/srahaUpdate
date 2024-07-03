@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import './config/connection.js';
+import userRouter from './src/routes/user.route.js';
+import messageRouter from './src/routes/messeage.route.js';
 
 const port = process.env.PORT || 7000;
 const mode = process.env.NODE_ENV;
@@ -11,6 +13,10 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use('/user', userRouter);
+app.use('/message', messageRouter);
 
 app.all('*', (req, res, next) => {
   return next(new Error(`page Not Found: ${req.url}`, { cause: 404 }));
