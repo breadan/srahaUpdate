@@ -3,7 +3,7 @@ import systemRoles from '../utils/systemRoles.js';
 
 const userSchema = new Schema(
   {
-    name: {
+    userName: {
       type: String,
       trim: true,
       required: true,
@@ -28,14 +28,14 @@ const userSchema = new Schema(
     age: {
       type: Number,
     },
-    gender: {
-      type: String,
-      enum: {
-        values: ['male', 'female'],
-        message: 'Invalid gender',
-      },
-      default: 'male',
-    },
+    // gender: {
+    //   type: String,
+    //   enum: {
+    //     values: ['male', 'female'],
+    //     message: 'Invalid gender',
+    //   },
+    //   default: 'male',
+    // },
     bio: {
       type: String,
     },

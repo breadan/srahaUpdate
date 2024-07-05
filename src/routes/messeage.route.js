@@ -1,9 +1,11 @@
 import express from 'express';
+import { shareProfile } from '../modules/message/message.controller.js';
 
 const messageRouter = express.Router();
 
-messageRouter.get('/', (req, res) => {
-  res.send('Hello from the message');
-});
+//********************* USE QR CODE TO SEND  MESSAGE ***************** */
+messageRouter.get('/shareProfile', shareProfile);
+
+//********************* Add MESSAGE ***************** */
 
 export default messageRouter;
