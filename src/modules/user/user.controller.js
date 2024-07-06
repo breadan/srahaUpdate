@@ -101,10 +101,10 @@ const updateUser = async (req, res, next) => {
     }
   }
   const { _id } = req.user; //from auth
-  console.log(_id);
+  // console.log(_id);
   const user = await userModel.findByIdAndUpdate(
     _id,
-    { userName, email, age },
+    { userName, email, age, $inc: { __v: 1 } },
     { new: true }
   );
   if (!updateUser) {

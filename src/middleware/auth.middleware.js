@@ -18,7 +18,7 @@ const auth = (accessRoles) => {
       }
 
       const info = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(info);
+      // console.log(info);
       if (!info || !info._id) {
         //|| !info.id
         return next(new Error(`Invalid Token Payload`, { cause: 498 }));
