@@ -2,6 +2,9 @@ import QRCode from 'qrcode';
 import { userModel } from '../../../models/user.model.js';
 import { messageModel } from '../../../models/message.model.js';
 import { createDocument, findDoc } from '../../../utils/dbMethods.js';
+import { loggerService } from '../../../services/logger.services.js';
+
+const logger = new loggerService('message.controller');
 
 //************************* SHARE PROFILE ********************** */
 
@@ -77,8 +80,13 @@ const listMsg = async (req, res, next) => {
     .find({ sendTo: loggedUserId, isViewed })
     .sort({ createdAt: -1 });
   // .sort({ createdAt: 1 });
+
   if (!listMessage.length)
     return next(new Error('Not Messages Fot U', { cause: 200 }));
+
+  //logger
+  logger.info('return message list', listMessage);
+
   return res
     .status(200)
     .json({ message: 'Messages Listed successfully', messages: listMessage });

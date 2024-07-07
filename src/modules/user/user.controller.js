@@ -3,6 +3,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import tokenModel from '../../../models/token.model.js';
 import { sendEmail } from '../../../utils/nodemailor.js';
+import { loggerService } from '../../../services/logger.services.js';
+
+const logger = new loggerService('user.controller');
 
 //************************* Signup********************** */
 const signUp = async (req, res, next) => {
@@ -28,7 +31,9 @@ const signUp = async (req, res, next) => {
     age,
     // gender,
   });
+  //verify email
   sendEmail({ email });
+
   return res
     .status(201)
     .json({ message: 'User created successfully', newUser });
@@ -74,11 +79,10 @@ const signIn = async (req, res, next) => {
 //************************* get All users********************** */
 const getUserProfile = async (req, res) => {
   const users = await userModel.find().select('-password');
-  if (users) {
-    return res.status(201).json({ data: { users } });
-  } else {
-    next(new Error('Internal Server Error', { cause: 404 }));
-  }
+  if (!users) next(new Error('Internal Server Error', { cause: 404 }));
+  //logger
+  logger.info('return message list', users);
+  return res.status(201).json({ data: { users } });
 };
 
 //************************* get user ********************** */

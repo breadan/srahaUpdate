@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import './config/connection.js';
 import userRouter from './src/routes/user.route.js';
 import messageRouter from './src/routes/messeage.route.js';
+import { loggerService } from './services/logger.services.js';
+
+const logger = new loggerService('message.controller');
 
 const port = process.env.PORT || 7000;
 const mode = process.env.NODE_ENV;
@@ -30,5 +33,6 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => res.send(' World!'));
 
 app.listen(port, () => {
-  console.log(`Example app running on port ${port} mode: ${mode}! ^_^ `);
+  logger.info('listening on port' + port); //?????????
+  // console.log(`Example app running on port ${port} mode: ${mode}! ^_^ `);
 });
