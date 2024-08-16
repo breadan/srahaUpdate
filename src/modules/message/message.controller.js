@@ -3,6 +3,9 @@ import { userModel } from '../../../models/user.model.js';
 import { messageModel } from '../../../models/message.model.js';
 import { createDocument, findDoc } from '../../../utils/dbMethods.js';
 import { loggerService } from '../../../services/logger.services.js';
+import { dateFormate, prepareAudit } from '../../../audit/audit.service.js';
+import { auditAction } from '../../../audit/auditAction.js';
+import { Audit } from '../../../models/audit.model.js';
 
 const logger = new loggerService('message.controller');
 
@@ -86,6 +89,24 @@ const listMsg = async (req, res, next) => {
 
   //logger
   logger.info('return message list', listMessage);
+
+  //Audit service
+  prepareAudit(
+    auditAction.GET_MSGS_LIST,
+    listMessage,
+    null,
+    null,
+    loggedUserId
+  );
+  const auditData = {
+    action: auditAction.GET_MSGS_LIST,
+    data: listMessage,
+    status: 200,
+    error: null,
+    auditBy: loggedUserId,
+    // auditOn: dateFormate(),
+  };
+  // await Audit.insertOne({ auditData });
 
   return res
     .status(200)
