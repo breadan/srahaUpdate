@@ -3,9 +3,9 @@ import { userModel } from '../../../models/user.model.js';
 import { messageModel } from '../../../models/message.model.js';
 import { createDocument, findDoc } from '../../../utils/dbMethods.js';
 import { loggerService } from '../../../services/logger.services.js';
-import { dateFormate, prepareAudit } from '../../../audit/audit.service.js';
+// import { prepareAudit } from '../../../audit/audit.service.js';
 import { auditAction } from '../../../audit/auditAction.js';
-import { Audit } from '../../../models/audit.model.js';
+import { auditModel } from '../../../models/audit.model.js';
 
 const logger = new loggerService('message.controller');
 
@@ -91,26 +91,29 @@ const listMsg = async (req, res, next) => {
   logger.info('return message list', listMessage);
 
   //Audit service
-  prepareAudit(
-    auditAction.GET_MSGS_LIST,
-    listMessage,
-    null,
-    null,
-    loggedUserId
-  );
-  const auditData = {
+  // prepareAudit(
+  //   auditAction.GET_MSGS_LIST,
+  //   listMessage,
+  //   null,
+  //   null,
+  //   loggedUserId
+  // );
+  const newAudit = await auditModel.create({
     action: auditAction.GET_MSGS_LIST,
     data: listMessage,
     status: 200,
     error: null,
     auditBy: loggedUserId,
-    // auditOn: dateFormate(),
-  };
-  // await Audit.insertOne({ auditData });
-
-  return res
-    .status(200)
-    .json({ message: 'Messages Listed successfully', messages: listMessage });
+  });
+  // if (!newAudit.success)
+  //   return res
+  //     .status(newAudit.status)
+  //     .json({ message: createdDocument.msg });
+  return res.status(200).json({
+    message: 'Messages Listed successfully',
+    messages: listMessage,
+    newAudit,
+  });
 };
 
 export { shareProfile, sendMessage, deleteMessage, markMsg, listMsg };
