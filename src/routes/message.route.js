@@ -28,6 +28,6 @@ messageRouter.delete(
 messageRouter.put('/v1/msgviewd', markMsg);
 
 //********************* VIEW MESSAGES OF USER ***************** */
-messageRouter.get('/v1/listMessage', listMsg);
+messageRouter.get('/listMessage', listMsg);
 
 export default messageRouter;

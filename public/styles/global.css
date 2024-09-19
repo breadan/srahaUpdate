@@ -1,0 +1,13 @@
+.contentTitle {
+  background-color: rgb(222, 17, 17);
+  color: white;
+}
+.container {
+  max-width: 1200px;
+  background-color: rgb(222, 17, 17);
+  margin: 20px auto;
+  text-align: center;
+}
+#main {
+  background-color: rgb(222, 17, 17);
+}

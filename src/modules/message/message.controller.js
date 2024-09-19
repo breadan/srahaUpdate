@@ -98,13 +98,13 @@ const listMsg = async (req, res, next) => {
   //   null,
   //   loggedUserId
   // );
-  const newAudit = await auditModel.create({
-    action: auditAction.GET_MSGS_LIST,
-    data: listMessage,
-    status: 200,
-    error: null,
-    auditBy: loggedUserId,
-  });
+  // const newAudit = await auditModel.create({
+  //   action: auditAction.GET_MSGS_LIST,
+  //   data: listMessage,
+  //   status: 200,
+  //   error: null,
+  //   auditBy: loggedUserId,
+  // });
   // if (!newAudit.success)
   //   return res
   //     .status(newAudit.status)
@@ -112,8 +112,22 @@ const listMsg = async (req, res, next) => {
   return res.status(200).json({
     message: 'Messages Listed successfully',
     messages: listMessage,
-    newAudit,
+    // newAudit,
   });
 };
 
-export { shareProfile, sendMessage, deleteMessage, markMsg, listMsg };
+const messageRender = async (req, res) => {
+  res.render('messages', {
+    message: await messageModel.find(),
+    // message: this.messageModel.find(),
+  });
+};
+
+export {
+  shareProfile,
+  sendMessage,
+  deleteMessage,
+  markMsg,
+  listMsg,
+  messageRender,
+};
